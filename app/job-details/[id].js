@@ -3,7 +3,7 @@ import { Text, View, ScrollView, SafeAreaView, ActivityIndicator, RefreshControl
 import {Stack, useLocalSearchParams, useRouter} from 'expo-router'
 import { useCallback, useState } from 'react'
 
-import { Company, JobAbout, JobTabs, ScreenHeaderBtn, Specifics } from '../../components'
+import { Company, JobAbout, JobFooter, JobTabs, ScreenHeaderBtn, Specifics } from '../../components'
 import { COLORS, icons, SIZES } from '../../constants'
 import useFetch from '../../hooks/useFetch'
 
@@ -27,13 +27,17 @@ const JobDetails = () => {
       case "Qualifications":
         return <Specifics 
                   title="Qualifications" 
-                  points={data[0].job_highlights?.qualifications ?? ['N/A']}
+                  points={data[0].job_highlights?.Qualifications ?? ['N/A']}
                 />
       case "About":
-        return <JobAbout />
+        return <JobAbout 
+                  info={data[0].job_description ?? "No data provided"}
+               />
       case "Responsibilities":
-
-        break;
+        return <Specifics 
+                  title="Responsibilities" 
+                  points={data[0].job_highlights?.Responsibilities ?? ['N/A']}
+                />
       default:
         break;
     }
@@ -62,41 +66,42 @@ const JobDetails = () => {
         headerTitle: "",
       }} 
     />
+      <>
+        <ScrollView 
+          showsVerticalScrollIndicator={false} 
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          {isLoading ? (
+              <ActivityIndicator size='large' colors={COLORS.primary}/>
+            ): error ? (
+              <Text>Something went wrong</Text>
+            ): data.length === 0 ? (
+              <Text>No Data</Text>
+            ) :(
+              <View style={{padding:SIZES.medium, paddingBottom:100}}>
 
-      <ScrollView 
-        showsVerticalScrollIndicator={false} 
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {isLoading ? (
-            <ActivityIndicator size='large' colors={COLORS.primary}/>
-          ): error ? (
-            <Text>Something went wrong</Text>
-          ): data.length === 0 ? (
-            <Text>No Data</Text>
-          ) :(
-            <View style={{padding:SIZES.medium, paddingBottom:100}}>
+                <Company 
+                  companyLogo={data[0].employer_logo}
+                  jobTitle={data[0].job_title}
+                  companyName={data[0].employer_name}
+                  location={data[0].job_country}
+                />
+                <JobTabs 
+                  tabs={tabs}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                />
 
-              <Company 
-                companyLogo={data[0].employer_logo}
-                jobTitle={data[0].job_title}
-                companyName={data[0].employer_name}
-                location={data[0].job_country}
-              />
-              <JobTabs 
-                tabs={tabs}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-              />
-
-              {displayTabContent()}
-        
-            </View>
-          )
-        }
-      </ScrollView>
-
+                {displayTabContent()}
+          
+              </View>
+            )
+          }
+        </ScrollView>
+        <JobFooter url={data[0]?.job_google_link ?? 'https://carrers.google.com/jobs/results'}/>
+      </>
     </SafeAreaView>
   )
 }
