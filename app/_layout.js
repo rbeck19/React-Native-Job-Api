@@ -12,28 +12,28 @@ const Layout = () => {
     DMRegular: require('../assets/fonts/DMSans-Regular.ttf'),
   })
 
-  // const onLayoutRootView = useCallback(async () => {
-  //   if(fontsLoaded) {
-  //     await SplashScreen.hideAsync();
-  //   }
-  //   console.log("in callback")
-  // },[fontsLoaded])
+  const onLayoutRootView = useCallback(async () => {
+    if(fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+    console.log("in callback")
+  },[fontsLoaded])
 
-  useEffect(() => {
-    const hideSplashScreen = async () => {
-      if (fontsLoaded) {
-        await SplashScreen.hideAsync();
-        console.log("Splash screen hidden");
-      }
-    };
+  // useEffect(() => {
+  //   const hideSplashScreen = async () => {
+  //     if (fontsLoaded) {
+  //       await SplashScreen.hideAsync();
+  //       console.log("Splash screen hidden");
+  //     }
+  //   };
 
-    hideSplashScreen();
-  }, [fontsLoaded]);
+  //   hideSplashScreen();
+  // }, [fontsLoaded]);
 
   if(!fontsLoaded) return null;
 
   return (
-    <Stack  />
+    <Stack Layout={onLayoutRootView} />
   );
 }
 
