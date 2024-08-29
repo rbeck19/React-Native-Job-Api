@@ -5,7 +5,7 @@ import  useFetch  from '../../../hooks/useFetch'
 
 import styles from './nearbyjobs.style'
 import {COLORS } from '../../../constants'
-import NearbyJobCard from '@/components/common/cards/nearby/NearbyJobCard'
+import NearbyJobCard from '../../common/cards/nearby/NearbyJobCard'
 
 const NearbyJobs = () => {
   const router = useRouter();
