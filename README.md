@@ -21,8 +21,10 @@ Mobile application uses JSearch from Rapid API to obtain open job application de
 
 ## Home Page
 ![Home Page](/assets/images/HomePage.png)
+
 ## Detail Page
 ![Detail Page](/assets/images/DetailPage.png)
+
 ## Search Page
 ![Search Page](/assets/images/SearchPage.png)
 
